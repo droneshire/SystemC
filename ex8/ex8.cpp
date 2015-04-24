@@ -63,12 +63,6 @@ struct Initiator: sc_module, tlm::tlm_bw_transport_if<>
     }
   }
  
-  virtual tlm::tlm_sync_enum b_transport_bw( tlm::tlm_generic_payload& trans,
-                                              sc_time& delay )
-  {
-    return tlm::TLM_ACCEPTED; 
-  }
-
  
   // TLM-2 backward non-blocking transport method
   virtual tlm::tlm_sync_enum nb_transport_bw( tlm::tlm_generic_payload& trans,
