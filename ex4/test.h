@@ -4,6 +4,7 @@
 #include "systemc"
 using namespace sc_core;
 using std::cout;
+using std::ostringstream;
 using std::endl;
 
 SC_MODULE(Test)
@@ -29,19 +30,23 @@ SC_MODULE(Test)
 
   void producer()
   {
+    std::ostringstream logger;
     if (!fifo.nb_write(count))
-      cout << "Error writing to fifo" << endl;
-    cout << "Produced " << count << endl;
+        SC_REPORT_ERROR("PRODUCER", "Error writing from fifo");
+    logger << "Produced    " << count;
+    SC_REPORT_INFO("PRODUCER", logger.str().c_str());
     ++ count;
   }
 
   void consumer()
   {
+    std::ostringstream logger;
     if (odd)
     {
       if (!fifo.nb_read(data))
-        cout << "Error reading from fifo" << endl;
-      cout << "Received    " << data << endl;
+        SC_REPORT_ERROR("CONSUMER", "Error reading from fifo");
+      logger << "Received    " << data;
+      SC_REPORT_INFO("CONSUMER", logger.str().c_str());
       if (data > 19) sc_stop();
     }
     odd = !odd;

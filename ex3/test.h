@@ -25,7 +25,7 @@ SC_MODULE(Test)
       wait();
       if(!fifo.nb_write(i)){
 	i--;
-	cout << "FIFO FULL" << endl;
+	cout << "Error nb returned false" << endl;
       }
       else
 	cout << "Produced " << i << endl;
@@ -38,7 +38,7 @@ SC_MODULE(Test)
       wait();
       wait();
       if(!fifo.nb_read(data)){
-	cout << "FIFO EMPTY" << endl;
+	cout << "Error nb returned false" << endl;
 	}
 
       cout << "Received    " << data << endl;
