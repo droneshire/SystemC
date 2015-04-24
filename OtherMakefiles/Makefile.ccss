@@ -1,0 +1,12 @@
+EXTRACFLAGS = 
+EXTRA_LIBS_linux = -lcstubrh9 
+EXTRA_LIBS_gccsparcOS5 = -lm -lsocket -lnsl
+EXTRA_LIBS_STUDIO = -L$(SYNOPSYS_CCSS)/lib -lruntimelibsc-O -lsystemc -lvirvpd-O -lruntimelib-O -lclm-O -ltcl-O -lg2c -ldl $(EXTRA_LIBS_$(TARGET_ARCH))
+EXTRA_LIBS = $(EXTRA_LIBS_STUDIO) 
+
+MODULE = run
+SRCS = lib/mult.cpp lib/mon.cpp lib/stim.cpp lib/main.cpp
+
+OBJS = $(SRCS:.cpp=.o)
+
+include ../../../Makefile.ccssdefs

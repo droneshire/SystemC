@@ -1,0 +1,12 @@
+comparator.o: comparator.cpp comparator.h
+mux.o:mux.cpp mux.h
+decode.o: decode.cpp decode.h
+stim.o: stim.cpp stim.h 
+mon.o: mon.cpp mon.h
+sorter.o: sorter.cpp sorter.h comparator.h decode.h mux.h
+testbench.o: testbench.cpp testbench.h stim.h sorter.h mon.h
+comparator.cpp comparator.h :
+mux.cpp mux.h :
+decode.cpp decode.h :
+sorter.cpp sorter.h :
+testbench.cpp testbench.h :

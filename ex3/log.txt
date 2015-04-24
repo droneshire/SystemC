@@ -1,0 +1,68 @@
+Produced 0
+Received    0
+Produced 1
+Produced 2
+Received    1
+Produced 3
+Produced 4
+Received    2
+Produced 5
+Produced 6
+Received    3
+Error nb returned false
+Produced 6
+Produced 7
+Received    4
+Error nb returned false
+Produced 7
+Produced 8
+Received    5
+Error nb returned false
+Produced 8
+Produced 9
+Received    6
+Error nb returned false
+Produced 9
+Produced 10
+Received    7
+Error nb returned false
+Produced 10
+Produced 11
+Received    8
+Error nb returned false
+Produced 11
+Produced 12
+Received    9
+Error nb returned false
+Produced 12
+Produced 13
+Received    10
+Error nb returned false
+Produced 13
+Produced 14
+Received    11
+Error nb returned false
+Produced 14
+Produced 15
+Received    12
+Error nb returned false
+Produced 15
+Produced 16
+Received    13
+Error nb returned false
+Produced 16
+Produced 17
+Received    14
+Error nb returned false
+Produced 17
+Produced 18
+Received    15
+Error nb returned false
+Produced 18
+Produced 19
+Received    16
+Received    17
+Received    18
+Received    19
+
+Info: /OSCI/SystemC: Simulation stopped by user.

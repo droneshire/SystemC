@@ -1,0 +1,60 @@
+## Variable that points to SystemC installation path
+## COWARE: SystemC paths and libds are not necessary to set
+## SYSTEMC = /apps/systemc21
+
+## COWARE: ConvergenSC setup script need to be sourced
+include $(COWAREHOME)/tools/etc/build.preamble
+
+
+## uncomment the line below for solaris, default value is linux
+#TARGET_ARCH = gccsparcOS5
+
+## COWARE CC, GXX, AR, etc.. are set in ConvergenSC build preamble
+OPT    = -O0
+DEBUG  = -g
+
+# COWARE scc options
+SCCFLAGS= +cache-objects $(EXTRASCCFLAGS)
+
+INCDIR = -I. -I..
+LIBDIR = -L. -L.. 
+
+## Build with maximum gcc warning level
+CFLAGS = -Wall -Wno-deprecated -Wno-char-subscripts -Wno-return-type $(DEBUG) $(OPT) $(EXTRACFLAGS)
+
+LIBS   =  -lstdc++ -lm $(EXTRA_LIBS) 
+
+# COWARE: Program name for simulation
+PROGRAM = $(MODULE).x
+
+# COWARE: Configuration directory
+CONFIG = Debug
+
+all: $(CONFIG) $(CONFIG)/$(PROGRAM).dwx
+
+.PHONY: clean 
+
+##COWARE: Addtional debug fiel to speed up SCIDE debug setup
+$(CONFIG)/$(PROGRAM).dwx: $(CONFIG)/$(PROGRAM)
+	$(COWARE_AUX_BIN)/dwx $< $@
+
+
+$(CONFIG)/$(PROGRAM): $(OBJS)
+	$(SCC) $(SCCFLAGS) $(CFLAGS) $(INCDIR) $(LIBDIR) -o $@ $(OBJS) $(LIBS) 2>&1 | c++filt
+
+## based on http://www.paulandlesley.org/gmake/autodep.html
+%.o : %.cpp
+	$(SCC)  $(SCCFLAGS) $(CFLAGS) $(INCDIR) -c -MMD -o $@ $<
+	@cp $*.d $*.P; \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.P; \
+	rm -f $*.d
+
+
+Debug:
+	mkdir Debug
+	
+clean:
+	-rm -rf $(OBJS) *~ $(EXE) *.vcd *.wif *.isdb *.dmp *.P *.log Debug
+
+-include $(SRCS:.cpp=.P)

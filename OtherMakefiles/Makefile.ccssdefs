@@ -1,0 +1,42 @@
+## Variable that points to SystemC installation path
+SYSTEMC = $(SYNOPSYS_CCSS)/ccss_systemc
+
+#TARGET_ARCH = $(SNPS_ARCH)
+#TARGET_ARCH = gccsparcOS5
+#TARGET_ARCH = linux
+
+CC = $(SYNOPSYS_CCSS)/../gnupackages/gcc-3.2.1/bin/g++
+OPT    = -O0
+DEBUG  = -g
+
+SYSDIR = -I$(SYSTEMC)/include
+          
+INCDIR = -I. -I.. $(SYSDIR)
+LIBDIR = -L. -L.. -L$(SYSTEMC)/lib-$(TARGET_ARCH)
+
+## Build with maximum gcc warning level
+CFLAGS = -Wall -Wno-deprecated -Wno-char-subscripts -Wno-return-type $(DEBUG) $(OPT) $(EXTRACFLAGS)
+
+LIBS   =  -lstdc++ -lm $(EXTRA_LIBS) -lsystemc
+
+EXE    = $(MODULE).x
+
+.PHONY: clean 
+
+$(EXE): $(OBJS) $(SYSTEMC)/lib-$(TARGET_ARCH)/libsystemc.a 
+	$(CC) $(CFLAGS) $(INCDIR) $(LIBDIR) -o $@ $(OBJS) $(LIBS) 2>&1 | c++filt
+
+
+## based on http://www.paulandlesley.org/gmake/autodep.html
+%.o : %.cpp
+	$(CC) $(CFLAGS) $(INCDIR) -c -MMD -o $@ $<
+	@cp $*.d $*.P; \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.P; \
+	rm -f $*.d
+
+
+clean:
+	-rm -f $(OBJS) *~ $(EXE) *.vcd *.wif *.isdb *.dmp *.P *.log
+
+-include $(SRCS:.cpp=.P)

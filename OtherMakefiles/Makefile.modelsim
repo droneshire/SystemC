@@ -1,0 +1,10 @@
+EXTRACFLAGS = 
+EXTRA_LIBS =
+
+#Modelsim work library
+WORK=./lib
+SRCS = $(wildcard *.cpp)
+
+OBJS = $(SRCS:.cpp=.o)
+
+include ../../Makefile.Modelsimdefs

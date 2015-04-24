@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+  <head>
+    <link rel="stylesheet"
+          type="text/css"
+          href="./doulos.css">
+    <title>Running SystemC with Microsoft Visual Studio / Visual C++</title>
+  </head>
+<body>
+
+<!-- Forms allow checkboxes -->
+<form action = "">
+
+<h1>IMPORTANT: Read This Before Installing Microsoft Visual Studio / C++</h1>
+<p>You can run SystemC using any of the following:</p>
+<ul>
+<li>&#8212; Microsoft Visual C++ 2005 or Microsoft Visual C++ 2005 Express Edition
+<li>&#8212; Microsoft Visual C++ 2008 or Microsoft Visual C++ 2008 Express Edition
+<li>&#8212; Microsoft Visual Studio/C++ 2010 or Microsoft Visual Studio/C++ 2010 Express Edition
+<li>&#8212; Microsoft Visual Studio/C++ 2012 or Microsoft Visual Studio/C++ 2012 Express for Desktop
+</ul>
+<p>However, you should be aware that the above installations may interact with one another. If you already have a working installation of Visual Studio/C++ 2010, you are advised to LEAVE IT ALONE for the duration of the training course! Some users have found that after installing Visual C++ 2012, they are  no longer able to run SystemC under Visual C++ 2010, even after uninstalling everything and making a clean install. Beware!</p>
+<p>Also note the following:</p>
+<ul>
+<li>&#8212;  Visual C++ 2005 and 2008 are now quite antiquated. You are advised to upgrade to Visual Studio 2010 or 2012.
+<li>&#8212;  The Express Editions are sufficient, although you will need to obtain a "free" license to run them.
+<li>&#8212;  Visual Studio 2010 is inconvenient in that you need to enable Expert Settings in order to get Directory Paths to be remembered between projects. This issue has been fixed in Visual Studio 2012
+<li>&#8212;  Visual Studio 2012 is inconvenient in that you need to make a one line patch to the SystemC source code to get it to compile.
+</ul>
+
+<p>Jump to...</p>
+<ul>
+  <li><a href="#VC20052008">Running SystemC with Microsoft Visual C++ 2005 and 2008</a></li>
+  <li><a href="#VC2010">Running SystemC with Microsoft Visual Studio/C++ 2010</a></li>
+  <li><a href="#VC2012">Running SystemC with Microsoft Visual Studio/C++ 2012</a></li>
+</ul>
+<br>
+
+<!-- -------------------------------------------------------------------------------- -->    
+<hr> 
+<h1 id="VC20052008">Running SystemC with Microsoft Visual C++ 2005 and 2008</h1>
+<p>To run SystemC using Microsoft Visual C++ 2005 or 2008, do the following before you create or open your first SystemC project in order to set up the SystemC directory paths:</p>
+<ol>
+<li>Select menu Tools->Options...
+<li>Select Projects and Solutions -> VC++ Directories
+<li>Select Show directories for: Include files and add the directory 
+...\systemc-2.x\src to the list of paths (where x = your version of SystemC)
+<li>Select Show directories for: Library files and add the directory 
+...\systemc-2.x\msvcXX\SystemC\Debug (where XX = your version of Visual C++)
+</ol>
+<br>
+<p>Do the following each time you set up a new SystemC project from scratch. You do NOT need to perform any of the steps below if you open the .vcproj files provided for you in the exercise files directories!</p>
+<ol>
+<li>Select menu File->New->Project...
+<li>Select Win32 / Win32 Console Application
+<li>Set the Location to be the path to the directory above the directory that contains your C++ files
+<li>Set the Project name to be the name of the directory that contains your C++ files
+<li>Click on OK. The Win32 Application Wizard will appear.
+<li>Application Settings: Application type should be Console application.
+<li>Check Empty Project, then click on Finish
+<li>Select menu Project->Add Existing Item..., select all your C++ source files, then click on Open
+<li>Select menu Project->Properties
+<li>Select Configuration Properties -> C/C++ -> Language and set Run Time Type Info to Yes (equivalent to /GR flag)
+<li>Select Configuration Properties -> C/C++ -> Command line and in the Additional Options box enter /vmg.
+<li>Select Configuration Properties -> Linker -> Input and in the Additional Dependencies field enter systemc.lib
+<li>Click on OK
+</ol>
+<br>
+
+<!-- -------------------------------------------------------------------------------- -->    
+<hr> 
+<h1 id="VC2010">Running SystemC with Microsoft Visual Studio/C++ 2010</h1>
+<p>To install SystemC-2.3.0 under Visual Studio 2010:</p>
+<ol>
+<li>Download systemc-2.3.0.tgz from the <a href="http://www.accellera.org/downloads/standards/systemc" target="_blank"> Accellera web site</a> (you have to accept the SystemC license agreement)
+<li>Unpack systemc-2.3.0.tgz
+<li>Double-click  systemc-2.3.0\msvc80\SystemC\SystemC.vcproj
+<li>Allow the project format conversion
+<li>Build Solution (function key F7)
+<li>Close Visual Studio
+</ol>
+<br>
+
+<p>Follow the steps below to setup up Visual C++ 2010 for SystemC when you first open one of the .vcproj project files provided in the exercise directories for this training course. (If you are not using the .vcproj files provided with this training, you will have to follow the steps given above to set up a SystemC project from scratch.)</p>
+<p>The location within the Visual C++ GUI of the project properties has changed between Microsoft Visual C++ versions 2008 and 2010. To set the Include and Library directory paths between projects, do the following:</p>
+<ol>
+<li>Open a Visual C++ project file, e.g. syscfund\ex1\ex1.vcproj
+<li>Select menu Tools -> Settings -> Expert Settings
+<li>Select menu View -> Property Manager
+<li>In the Property Manager pane
+  <ul>
+  <li><input type="checkbox" />Click on the specific project name to expand (e.g. ex1_proj)
+  <li><input type="checkbox" />Click on Debug | Win32 to expand (or Release | Win32 if you wish). (To set the directory paths for both Debug and Release, Ctrl-click both Debug and Release.)
+  <li><input type="checkbox" />Double-click on Microsoft.Cpp.Win32.User (or instead right-click and select Properties)
+  </ul>
+<li>In the Property Page dialog box
+  <ul>
+  <li><input type="checkbox" />In the left-hand pane, select VC++ Directories
+  <li><input type="checkbox" />Add the SystemC path to the Include Directories. (If you are using SystemC-2.2.x, you will also need to add the path to TLM-2.0 to the Include Directories too.)
+    <br>  ...\systemc-2.3.0\src
+  <li><input type="checkbox" />Add the SystemC path to the Library Directories
+    <br>  ...\systemc-2.3.0\msvc80\SystemC\Debug  (or Release, depending which you selected above)
+  <li>Click Okay
+  </ul>
+<li>To compile, select Build Solution (function key F7)
+<li>To run, select Start Without Debugging (function key Ctrl-F5)
+</ol>
+<br>
+
+<!-- -------------------------------------------------------------------------------- -->    
+<hr> 
+<h1 id="VC2012">Running SystemC with Microsoft Visual Studio/C++ 2012</h1>  
+<p>To install SystemC-2.3.0 under Visual Studio 2012 it is necessary to make one trivial patch to the SystemC source code:</p>
+<ol>
+<li>Download systemc-2.3.0.tgz from the <a href="http://www.accellera.org/downloads/standards/systemc" target="_blank"> Accellera web site</a> (you have to accept the SystemC license agreement)
+<li>Unpack systemc-2.3.0.tgz
+<li>Patch the file  systemc-2.3.0\src\sysc\kernel\sc_cmnhdr.h as follows:
+<pre>
+// PATCH; remove 1 line, insert 3 new lines ...
+// #define for if( false ); else for
+#if _MSC_VER < 1300 // MSVC6.0 for() scope bug
+#  define for if( false ); else for
+#endif
+</pre>
+<li>Double-click  systemc-2.3.0\msvc80\SystemC\SystemC.vcproj
+<li>Accept One-way upgrade
+<li>Build Solution (function key F7)
+<li>Close Visual Studio
+</ol>
+<br>
+
+<p>Follow the steps below to setup up Visual Studio 2012 for SystemC when you first open one of the .vcproj project files provided in the exercise directories for this training course. (If you are not using the .vcproj files provided with this training, you will have to follow the steps given above to set up a SystemC project from scratch.)</p>
+
+<ol>
+<li>Open a Visual C++ project file, e.g. syscfund\ex1\ex1.vcproj
+<li>Accept One-way upgrade
+<li>(Tools -> Settings -> Expert Settings, as required by VC++ 2010, is no longer needed for VC++ 2012. 
+  <br>PROJECT -> Properties -> Configuration Properties -> VC++ Directories works for the current project only, but isn't sticky between projects, so make sure you set the directory paths using the Property Manager as described below.)
+<li>Select menu VIEW -> Other Windows -> Property Manager
+<li>In the Property Manager pane
+  <ul>
+  <li><input type="checkbox" />Click on the specific project name to expand (e.g. ex1)
+  <li><input type="checkbox" />Click on Debug | Win32 to expand (or Release | Win32 if you wish). (To set the directory paths for both Debug and Release, Ctrl-click both Debug and Release.)
+  <li><input type="checkbox" />Double-click on Microsoft.Cpp.Win32.User (or instead right-click and select Properties)
+  </ul>
+<li>In the left-hand pane, select VC++ Directories
+  <ul>
+  <li><input type="checkbox" />Add the SystemC path to the Include Directories. (If you are using SystemC-2.2.x, you will also need to add the path to TLM-2.0 to the Include Directories too.)
+    <br>  ...\systemc-2.3.0\src
+  <li><input type="checkbox" />Add the SystemC path to the Library Directories
+    <br>  ...\systemc-2.3.0\msvc80\SystemC\Debug  (or Release, depending which you selected above)
+  <li>Click Okay
+  </ul>
+<li>To compile, select Build Solution (function key F7)
+<li>To run, select Start Without Debugging (function key Ctrl-F5)
+</ol>
+<br>
+
+<!-- -------------------------------------------------------------------------------- -->    
+<hr> 
+     
+</form>
+</body>
+</html>

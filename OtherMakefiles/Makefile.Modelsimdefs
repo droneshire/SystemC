@@ -1,0 +1,36 @@
+CC	= sccom
+LINK	= sccom -link
+OPT    = -O0
+DEBUG  = -g
+
+CFLAGS = -Wall -Wno-deprecated -Wno-char-subscripts -Wno-return-type $(DEBUG) $(OPT) $(EXTRACFLAGS)
+
+LIBS   =  $(EXTRA_LIBS)
+
+EXE    = $(WORK)/systemc.so
+
+.PHONY: clean allclean
+
+VPATH	= $(WORK)/_sc
+
+
+$(EXE): $(OBJS)
+	$(LINK)
+
+## based on http://www.paulandlesley.org/gmake/autodep.html
+%.o : %.cpp
+	$(CC) $(CFLAGS) -c -MMD  $<
+	@cp $*.d $*.P; \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.P; \
+	rm -f $*.d
+
+
+clean:
+	-rm -f $(OBJS) *~ $(EXE) *.vcd *.wif *.isdb *.dmp *.P *.d *.log *.wlf
+	vdel -allsystemc
+
+allclean:	clean
+	-rm -rf $(WORK) transcript modelsim.ini
+
+-include $(SRCS:.cpp=.P)
