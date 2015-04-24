@@ -24,10 +24,12 @@ class Bus : public sc_module, public master_if
     sc_in<bool> clock;
 
     // a port to connect slave(s)
-    sc_port<slave_if> slave_port;
+    sc_port<slave_if, 2, SC_ONE_OR_MORE_BOUND> slave_port;
+    sc_export<master_if> master_xport;
 
     SC_HAS_PROCESS(Bus);
 
+    
     // constructor
     Bus(sc_module_name name)
     : sc_module(name)
@@ -38,6 +40,7 @@ class Bus : public sc_module, public master_if
     {
       SC_THREAD(control_bus);
       sensitive << clock.neg();
+      master_xport.bind(*this);
     }
 
     // destructor

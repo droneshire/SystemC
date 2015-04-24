@@ -14,6 +14,7 @@ class Mem : public sc_module, public slave_if
       size(size),
       trace_file(trace_file)
     {
+      mem_xport.bind(*this);
       if (size < 1) {
         cout << "Mem size must be at least 1" << endl;
         sc_assert(false);
@@ -21,6 +22,7 @@ class Mem : public sc_module, public slave_if
       init();
     }
 
+    sc_export<slave_if> mem_xport;
     // interface methods
     void slave_write(BusT::addressT address, BusT::dataT  data);
     void slave_read (BusT::addressT address, BusT::dataT &data);
